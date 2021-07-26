@@ -11,7 +11,7 @@ import torch
 from iopath.common.file_io import g_pathmgr
 from torch.utils.data.distributed import DistributedSampler
 
-from . import transform as transform
+import transform as transform
 
 logger = logging.getLogger(__name__)
 

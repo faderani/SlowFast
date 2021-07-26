@@ -13,7 +13,7 @@ from iopath.common.file_io import g_pathmgr
 from PIL import Image
 from torchvision import transforms as transforms_tv
 
-import slowfast.datasets.transform as transform
+from . import transform as transform
 import slowfast.utils.logging as logging
 
 from .build import DATASET_REGISTRY

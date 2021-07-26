@@ -82,6 +82,9 @@ class Charades(torch.utils.data.Dataset):
         assert g_pathmgr.exists(path_to_file), "{} dir not found".format(
             path_to_file
         )
+        
+        
+        
         (self._path_to_videos, self._labels) = utils.load_image_lists(
             path_to_file, self.cfg.DATA.PATH_PREFIX, return_list=True
         )
@@ -209,6 +212,11 @@ class Charades(torch.utils.data.Dataset):
             )
 
         seq = self.get_seq_frames(index)
+        
+        
+        
+        
+        
         frames = torch.as_tensor(
             utils.retry_load_images(
                 [self._path_to_videos[index][frame] for frame in seq],
