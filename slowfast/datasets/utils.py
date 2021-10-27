@@ -11,7 +11,7 @@ import torch
 from iopath.common.file_io import g_pathmgr
 from torch.utils.data.distributed import DistributedSampler
 
-import transform as transform
+from . import transform as transform
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +31,10 @@ def retry_load_images(image_paths, retry=10, backend="pytorch"):
     for i in range(retry):
         imgs = []
         for image_path in image_paths:
+
+            if os.path.exists(image_path) == False:
+                raise Exception(f"Image path does not exist!: {image_path}")
+
             with g_pathmgr.open(image_path, "rb") as f:
                 img_str = np.frombuffer(f.read(), np.uint8)
                 img = cv2.imdecode(img_str, flags=cv2.IMREAD_COLOR)

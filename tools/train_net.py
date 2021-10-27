@@ -207,6 +207,7 @@ def eval_epoch(val_loader, model, val_meter, cur_epoch, cfg, writer=None):
     model.eval()
     val_meter.iter_tic()
 
+
     for cur_iter, (inputs, labels, _, meta) in enumerate(val_loader):
         if cfg.NUM_GPUS:
             # Transferthe data to the current GPU device.
@@ -463,7 +464,7 @@ def train(cfg):
                 # Load checkpoint.
                 if cu.has_checkpoint(cfg.OUTPUT_DIR):
                     last_checkpoint = cu.get_last_checkpoint(cfg.OUTPUT_DIR)
-                    assert "{:05d}.pyth".format(cur_epoch) in last_checkpoint
+                    #assert "{:05d}.pyth".format(cur_epoch) in last_checkpoint
                 else:
                     last_checkpoint = cfg.TRAIN.CHECKPOINT_FILE_PATH
                 logger.info("Load from {}".format(last_checkpoint))
@@ -493,6 +494,7 @@ def train(cfg):
             f"{epoch_timer.avg_epoch_time()/len(train_loader):.2f}s in average."
         )
 
+
         is_checkp_epoch = cu.is_checkpoint_epoch(
             cfg,
             cur_epoch,
@@ -501,6 +503,13 @@ def train(cfg):
         is_eval_epoch = misc.is_eval_epoch(
             cfg, cur_epoch, None if multigrid is None else multigrid.schedule
         )
+
+        if cur_epoch % 5 == 0:
+            is_checkp_epoch = True
+            is_eval_epoch = True
+        else:
+            is_checkp_epoch = False
+            is_eval_epoch = False
 
         # Compute precise BN stats.
         if (
@@ -517,6 +526,7 @@ def train(cfg):
         _ = misc.aggregate_sub_bn_stats(model)
 
         # Save a checkpoint.
+
         if is_checkp_epoch:
             cu.save_checkpoint(cfg.OUTPUT_DIR, model, optimizer, cur_epoch, cfg)
         # Evaluate the model on validation set.

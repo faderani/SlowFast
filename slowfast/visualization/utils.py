@@ -10,6 +10,8 @@ from sklearn.metrics import confusion_matrix
 import slowfast.utils.logging as logging
 from slowfast.datasets.utils import pack_pathway_output, tensor_normalize
 
+import json
+
 logger = logging.get_logger(__name__)
 
 
@@ -39,8 +41,18 @@ def get_confusion_matrix(preds, labels, num_classes, normalize="true"):
     # Get the predicted class indices for examples.
     preds = torch.flatten(torch.argmax(preds, dim=-1))
     labels = torch.flatten(labels)
+
+    # with open('/ssd1/datasets/EGTEA_Gaze+/frames/mapping.json') as json_file:
+    #     mapping = json.load(json_file)
+
+    # for key, value in mapping.items():
+    #     preds[preds == int(key)] = value
+    #     labels[labels == int(key)] = value
+
+    
+
     cmtx = confusion_matrix(
-        labels, preds, labels=list(range(num_classes)), normalize=normalize
+        labels, preds, labels=list(range(num_classes)), normalize='true'
     )
     return cmtx
 
@@ -67,7 +79,7 @@ def plot_confusion_matrix(cmtx, num_classes, class_names=None, figsize=None):
     plt.title("Confusion matrix")
     plt.colorbar()
     tick_marks = np.arange(len(class_names))
-    plt.xticks(tick_marks, class_names, rotation=45)
+    plt.xticks(tick_marks, class_names, rotation=90)
     plt.yticks(tick_marks, class_names)
 
     # Use white text if squares are dark; otherwise black.

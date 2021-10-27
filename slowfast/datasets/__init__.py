@@ -9,5 +9,6 @@ from .kinetics import Kinetics  # noqa
 from .ssv2 import Ssv2  # noqa
 try:
     from .ptv_datasets import Ptvcharades, Ptvkinetics, Ptvssv2  # noqa
-except Exception:
+except Exception as e:
     print("Please update your PyTorchVideo to latest master")
+    print(e)

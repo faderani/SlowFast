@@ -179,7 +179,13 @@ class NaiveSyncBatchNorm3d(nn.BatchNorm3d):
             num_sync_devices (int): number of device to sync.
             args (list): other arguments.
         """
+
+        
+
         self.num_sync_devices = num_sync_devices
+
+        #self.num_sync_devices = 4
+
         if self.num_sync_devices > 0:
             assert du.get_local_size() % self.num_sync_devices == 0, (
                 du.get_local_size(),

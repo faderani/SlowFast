@@ -33,6 +33,7 @@ def main():
         cfg.TENSORBOARD.MODEL_VIS.ENABLE
         or cfg.TENSORBOARD.WRONG_PRED_VIS.ENABLE
     ):
+        print("performing visualization...")
         launch_job(cfg=cfg, init_method=args.init_method, func=visualize)
 
     # Run demo.

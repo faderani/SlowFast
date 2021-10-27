@@ -93,7 +93,9 @@ def is_checkpoint_epoch(cfg, cur_epoch, multigrid_schedule=None):
         return True
     if multigrid_schedule is not None:
         prev_epoch = 0
+        
         for s in multigrid_schedule:
+
             if cur_epoch < s[-1]:
                 period = max(
                     (s[-1] - prev_epoch) // cfg.MULTIGRID.EVAL_FREQ + 1, 1
@@ -337,8 +339,8 @@ def load_checkpoint(
             # Load the optimizer state (commonly not done when fine-tuning)
         if "epoch" in checkpoint.keys() and not epoch_reset:
             epoch = checkpoint["epoch"]
-            if optimizer:
-                optimizer.load_state_dict(checkpoint["optimizer_state"])
+            # if optimizer:
+            #     optimizer.load_state_dict(checkpoint["optimizer_state"])
         else:
             epoch = -1
     return epoch

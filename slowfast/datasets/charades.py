@@ -216,7 +216,6 @@ class Charades(torch.utils.data.Dataset):
         
         
         
-        
         frames = torch.as_tensor(
             utils.retry_load_images(
                 [self._path_to_videos[index][frame] for frame in seq],
